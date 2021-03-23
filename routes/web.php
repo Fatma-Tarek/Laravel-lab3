@@ -50,7 +50,7 @@ Route::get('/auth/redirect', function () {
     //dd("we are  login with github");
     return Socialite::driver('github')->redirect();
 });
-
+/*
 Route::get('/auth/callback', function () {
     $user = Socialite::driver('github')->user();
    // dd($user->user["email"]);
@@ -69,6 +69,29 @@ Route::get('/auth/callback', function () {
     return redirect()->route('posts.index');
     // $user->token
 });
+*/
+Route::get('/auth/callback', function () {
+    $user = Socialite::driver('github')->user();
+   // dd($user->user["email"]);
+   // $this->_registerOrLoginUser($user);
+    // Return home after login
+    $user1 = Usergit::where('email', '=', $user->email)->first();
+    if (!$user1) {
+        $user1 = new Usergit();
+        $user1->name = $user->name;
+        $user1->email = $user->email;
+        //$user1->user_id = $user->user_id;
+        $user1->password = 12345678;
+        $user1->save();
+    }
+    Auth::login($user1);
+    return redirect()->route('posts.index');
+    // $user->token
+});
+
+
+
+
 /*
  function _registerOrLoginUser($data)
     {
