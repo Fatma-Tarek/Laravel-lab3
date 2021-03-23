@@ -24,10 +24,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 // y3ny endha 3la index
-Route::get('posts', [PostController::class ,'index']);
+Route::get('posts', [PostController::class ,'index'])->middleware('auth:sanctum');
 Route::get('posts/{post}', [PostController::class ,'show']);
 Route::post('posts', [PostController::class ,'store']);
 
+
+
+//Authentication Section 
+//1)create Token 
 Route::post('/sanctum/token', function (Request $request) {
     $request->validate([
         'email' => 'required|email',

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,3 +42,16 @@ Route::group(['middleware' => ['auth']], function () {
  Route::put('/posts/{post}', [PostController::class, 'update'])->name('posts.update')->middleware('auth');
 
 Auth::routes();
+
+
+
+Route::get('/auth/redirect', function () {
+    //dd("we are  login with github");
+    return Socialite::driver('github')->redirect();
+});
+
+Route::get('/auth/callback', function () {
+    $user = Socialite::driver('github')->user();
+    dd($user);
+    // $user->token
+});
