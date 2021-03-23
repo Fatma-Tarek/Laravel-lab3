@@ -26,7 +26,7 @@ class PostController extends Controller
        return $mappedPosts;*/
 
        $posts = Post:: all(); //return elqoant collection
-      // $posts = Post ::paginate(4);
+       $posts = Post ::paginate(4);
        return PostResource::collection($posts);
     }
     public function show(Post $post) {

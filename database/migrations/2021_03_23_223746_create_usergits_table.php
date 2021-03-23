@@ -14,9 +14,8 @@ class CreateUsergitsTable extends Migration
     public function up()
     {
         Schema::create('usergits', function (Blueprint $table) {
-            
-            $table->email;
-            $table->name;
+            $table->string('email')->unique();
+            $table->string('name');
             $table->timestamps();
         });
     }

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\User;
+use App\Models\Usergit;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,7 +51,7 @@ Route::get('/auth/redirect', function () {
     //dd("we are  login with github");
     return Socialite::driver('github')->redirect();
 });
-/*
+
 Route::get('/auth/callback', function () {
     $user = Socialite::driver('github')->user();
    // dd($user->user["email"]);
@@ -69,7 +70,8 @@ Route::get('/auth/callback', function () {
     return redirect()->route('posts.index');
     // $user->token
 });
-*/
+
+/*
 Route::get('/auth/callback', function () {
     $user = Socialite::driver('github')->user();
    // dd($user->user["email"]);
@@ -81,14 +83,14 @@ Route::get('/auth/callback', function () {
         $user1->name = $user->name;
         $user1->email = $user->email;
         //$user1->user_id = $user->user_id;
-        $user1->password = 12345678;
+        //$user1->password = 12345678;
         $user1->save();
     }
     Auth::login($user1);
     return redirect()->route('posts.index');
     // $user->token
 });
-
+*/
 
 
 
