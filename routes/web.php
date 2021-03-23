@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use Laravel\Socialite\Facades\Socialite;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,6 +53,35 @@ Route::get('/auth/redirect', function () {
 
 Route::get('/auth/callback', function () {
     $user = Socialite::driver('github')->user();
-    dd($user);
+   // dd($user->user["email"]);
+   // $this->_registerOrLoginUser($user);
+    // Return home after login
+    $user1 = User::where('email', '=', $user->email)->first();
+    if (!$user1) {
+        $user1 = new User();
+        $user1->name = $user->name;
+        $user1->email = $user->email;
+        //$user1->user_id = $user->user_id;
+        $user1->password = 12345678;
+        $user1->save();
+    }
+    Auth::login($user1);
+    return redirect()->route('posts.index');
     // $user->token
 });
+/*
+ function _registerOrLoginUser($data)
+    {
+        $user = User::where('email', '=', $data->email)->first();
+        if (!$user) {
+            $user = new User();
+            $user->name = $data->name;
+            $user->email = $data->email;
+            $user->user_id = $data->id;
+            //$user->avatar = $data->avatar;
+            $user->save();
+        }
+
+        Auth::login($user);
+    }
+*/
