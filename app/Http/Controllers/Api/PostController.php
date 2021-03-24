@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use  App\Http\Resources\PostResource;
 use App\Http\Requests\StorePostRequest;
+use Illuminate\Database\Eloquent\Model;
 
 
 class PostController extends Controller
@@ -25,9 +26,12 @@ class PostController extends Controller
        }
        return $mappedPosts;*/
 
-       $posts = Post:: all(); //return elqoant collection
+        $posts = Post:: all(); //return elqoant collection
        $posts = Post ::paginate(4);
+       //$posts = Post::with('posts')->limit(100)->get();
        return PostResource::collection($posts);
+       // this is hasMany but don't exist 
+       //return $this->hasMany('App\Comment');
     }
     public function show(Post $post) {
       //dd($post);
