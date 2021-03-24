@@ -71,6 +71,38 @@ Route::get('/auth/callback', function () {
     // $user->token
 });
 
+
+// Google login
+Route::get('login/google', function () {
+    //dd("we are  login with github");
+    return Socialite::driver('google')->redirect();
+});
+
+Route::get('login/google/callback',  function () {
+    //dd("we are  login with github");
+    $user = Socialite::driver('google')->user();
+
+    $user1 = User::where('email', '=', $user->email)->first();
+    if (!$user1) {
+        $user1 = new User();
+        $user1->name = $user->name;
+        $user1->email = $user->email;
+        //$user1->user_id = $user->user_id;
+        $user1->password = 12345678;
+        $user1->save();
+    }
+    Auth::login($user1);
+     // Return home after login
+     return redirect()->route('posts.index');
+});
+
+
+
+
+
+
+
+
 /*
 Route::get('/auth/callback', function () {
     $user = Socialite::driver('github')->user();
